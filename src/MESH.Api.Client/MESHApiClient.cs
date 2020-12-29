@@ -4,16 +4,13 @@ using MESH.Api.Client.Entities;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace MESH.Api.Client
 {
     public class MESHApiClient : IMESHApiClient
     {
-
         private readonly HttpClient _httpClient;
         private readonly MESHApiClientConfiguration _config;
         private readonly IAuthenticationHeaderGenerator _authHeaderGenerator;
@@ -37,12 +34,10 @@ namespace MESH.Api.Client
 
             var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
-
         }
 
         public async Task<GetMessageCountResponse> GetMessageCount()
         {
-
             await Authenticate();
 
             var request = new HttpRequestMessage
@@ -81,9 +76,7 @@ namespace MESH.Api.Client
 
         public async Task<Message> DownloadMessage(string messageId)
         {
-
             // not implemented
-
 
             await Authenticate();
 
@@ -103,10 +96,8 @@ namespace MESH.Api.Client
             var currentChunk = chunkSize.Split(':')[0];
             var maxChunk = chunkSize.Split(':')[1];
 
-
             return new Message();
         }
-
 
         public async Task<AknowledgeMessageResponse> AknowledgeMessage(string messageId)
         {
@@ -127,10 +118,5 @@ namespace MESH.Api.Client
             var responseString = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<AknowledgeMessageResponse>(responseString);
         }
-
-
     }
 }
-
-
-

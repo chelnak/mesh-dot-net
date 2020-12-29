@@ -1,17 +1,15 @@
-using System;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using MESH.Api.Client;
 using MESH.Api.Client.Configuration;
 using MESH.Api.Client.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Threading.Tasks;
 
 namespace MESH.Api.Client.TestApp
 {
-    class Program
+    internal class Program
     {
         public static async Task Main(string[] args)
         {
-
             var configuration = new MESHApiClientConfiguration
             {
                 BaseUrl = "https://localhost:8000",
@@ -32,7 +30,6 @@ namespace MESH.Api.Client.TestApp
 
             var messages = await client.GetMessages();
             messages.Messages.ForEach(m => Console.WriteLine(m));
-
         }
     }
 }

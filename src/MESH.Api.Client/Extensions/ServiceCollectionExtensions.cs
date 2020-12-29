@@ -28,11 +28,9 @@ namespace MESH.Api.Client.Extensions
                     handler.ServerCertificateCustomValidationCallback = (m, c, ch, e) => true;
 
                     return handler;
-
                 });
 
             return services;
-
         }
     }
 }

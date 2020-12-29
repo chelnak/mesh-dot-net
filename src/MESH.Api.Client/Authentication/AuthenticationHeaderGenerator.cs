@@ -1,6 +1,5 @@
 using MESH.Api.Client.Configuration;
 using System;
-using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
@@ -9,9 +8,7 @@ namespace MESH.Api.Client.Authentication
 {
     public class AuthenticationHeaderGenerator : IAuthenticationHeaderGenerator
     {
-
         private readonly MESHApiClientConfiguration _config;
-
 
         public AuthenticationHeaderGenerator(MESHApiClientConfiguration config)
         {
@@ -32,7 +29,7 @@ namespace MESH.Api.Client.Authentication
              *     Nonce Count - As above
              *     Mailbox Password - The password for the MESH Mailbox.
              *     Timestamp - As above
-             *  
+             *
              *  Example Token: "NHSMESH MAILBOX01:73eefd69-811f-44d0-81f8-a54ff352a991:001:201511041205:3097fd5aa85a...f540942614b"
              */
 
@@ -59,5 +56,4 @@ namespace MESH.Api.Client.Authentication
             }
         }
     }
-
 }
