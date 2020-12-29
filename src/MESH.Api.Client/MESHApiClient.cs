@@ -22,56 +22,18 @@ namespace MESH.Api.Client
             _authHeaderGenerator = authHeaderGenerator;
         }
 
-        private async Task Authenticate()
-        {
-            var request = new HttpRequestMessage
-            {
-                RequestUri = new Uri($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}"),
-                Method = HttpMethod.Get,
-            };
-
-            request.Headers.Authorization = _authHeaderGenerator.GetAuthenticationHeader();
-
-            var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-        }
-
         public async Task<GetMessageCountResponse> GetMessageCount()
         {
             await Authenticate();
-
-            var request = new HttpRequestMessage
-            {
-                RequestUri = new Uri($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}/count"),
-                Method = HttpMethod.Get,
-            };
-
-            request.Headers.Authorization = _authHeaderGenerator.GetAuthenticationHeader();
-
-            var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            var responseString = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<GetMessageCountResponse>(responseString);
+            var response = await MESHHttpGet($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}/count");
+            return JsonConvert.DeserializeObject<GetMessageCountResponse>(await response.Content.ReadAsStringAsync());
         }
 
         public async Task<GetMessagesResponse> GetMessages()
         {
             await Authenticate();
-
-            var request = new HttpRequestMessage
-            {
-                RequestUri = new Uri($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}/inbox"),
-                Method = HttpMethod.Get
-            };
-
-            request.Headers.Authorization = _authHeaderGenerator.GetAuthenticationHeader();
-
-            var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            var responseString = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<GetMessagesResponse>(responseString);
+            var response = await MESHHttpGet($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}/inbox");
+            return JsonConvert.DeserializeObject<GetMessagesResponse>(await response.Content.ReadAsStringAsync());
         }
 
         public async Task<Message> DownloadMessage(string messageId)
@@ -79,17 +41,7 @@ namespace MESH.Api.Client
             // not implemented
 
             await Authenticate();
-
-            var request = new HttpRequestMessage
-            {
-                RequestUri = new Uri($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}/inbox/{messageId}"),
-                Method = HttpMethod.Get,
-            };
-
-            request.Headers.Authorization = _authHeaderGenerator.GetAuthenticationHeader();
-
-            var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
+            var response = await MESHHttpGet($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}/inbox/{messageId}");
 
             var chunkSize = response.Headers.TryGetValues("Mex-Chunk-Size", out var value) ? value.First() : "1:1";
 
@@ -101,13 +53,23 @@ namespace MESH.Api.Client
 
         public async Task<AknowledgeMessageResponse> AknowledgeMessage(string messageId)
         {
+            var response = await MESHHttpGet($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}/inbux/{messageId}/status/acknowledged");
+            return JsonConvert.DeserializeObject<AknowledgeMessageResponse>(await response.Content.ReadAsStringAsync());
+        }
+
+        private async Task Authenticate()
+        {
+            await MESHHttpGet($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}");
+        }
+
+        private async Task<HttpResponseMessage> MESHHttpGet(string uri)
+        {
             await Authenticate();
 
             var request = new HttpRequestMessage
             {
-                RequestUri = new Uri($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}/inbux/{messageId}/status/acknowledged"),
-                Method = HttpMethod.Put,
-                Content = new StringContent("")
+                RequestUri = new Uri(uri),
+                Method = HttpMethod.Get
             };
 
             request.Headers.Authorization = _authHeaderGenerator.GetAuthenticationHeader();
@@ -115,8 +77,7 @@ namespace MESH.Api.Client
             var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
 
-            var responseString = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<AknowledgeMessageResponse>(responseString);
+            return response;
         }
     }
 }
