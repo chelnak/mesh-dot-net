@@ -53,6 +53,7 @@ namespace MESH.Api.Client
 
         public async Task<AknowledgeMessageResponse> AknowledgeMessage(string messageId)
         {
+            await Authenticate();
             var response = await MESHHttpGet($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}/inbux/{messageId}/status/acknowledged");
             return JsonConvert.DeserializeObject<AknowledgeMessageResponse>(await response.Content.ReadAsStringAsync());
         }
@@ -64,8 +65,6 @@ namespace MESH.Api.Client
 
         private async Task<HttpResponseMessage> MESHHttpGet(string uri)
         {
-            await Authenticate();
-
             var request = new HttpRequestMessage
             {
                 RequestUri = new Uri(uri),
