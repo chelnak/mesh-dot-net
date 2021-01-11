@@ -1,7 +1,7 @@
 using MESH.Api.Client.Authentication;
 using MESH.Api.Client.Configuration;
 using MESH.Api.Client.Entities;
-using Newtonsoft.Json;
+using System.Text.Json;
 using System;
 using System.Linq;
 using System.Net.Http;
@@ -25,13 +25,13 @@ namespace MESH.Api.Client
         public async Task<GetMessageCountResponse> GetMessageCount()
         {
             var response = await MESHHttpGet($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}/count");
-            return JsonConvert.DeserializeObject<GetMessageCountResponse>(await response.Content.ReadAsStringAsync());
+            return JsonSerializer.Deserialize<GetMessageCountResponse>(await response.Content.ReadAsStringAsync());
         }
 
         public async Task<GetMessagesResponse> GetMessages()
         {
             var response = await MESHHttpGet($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}/inbox");
-            return JsonConvert.DeserializeObject<GetMessagesResponse>(await response.Content.ReadAsStringAsync());
+            return JsonSerializer.Deserialize<GetMessagesResponse>(await response.Content.ReadAsStringAsync());
         }
 
         public async Task<DownloadMessageResponse> DownloadMessage(string messageId)
@@ -52,7 +52,7 @@ namespace MESH.Api.Client
         public async Task<AcknowledgeMessageResponse> AcknowledgeMessage(string messageId)
         {
             var response = await MESHHttpGet($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}/inbox/{messageId}/status/acknowledged");
-            return JsonConvert.DeserializeObject<AcknowledgeMessageResponse>(await response.Content.ReadAsStringAsync());
+            return JsonSerializer.Deserialize< AcknowledgeMessageResponse >(await response.Content.ReadAsStringAsync());
         }
 
         private async Task Authenticate()

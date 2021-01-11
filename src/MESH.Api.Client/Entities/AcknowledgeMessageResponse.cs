@@ -1,10 +1,10 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace MESH.Api.Client.Entities
 {
     public class AcknowledgeMessageResponse
     {
-        [JsonProperty("messageID")]
+        [JsonPropertyName("messageID")]
         public string Id { get; set; }
     }
 }

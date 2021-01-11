@@ -1,11 +1,11 @@
 using FluentAssertions;
 using MESH.Api.Client.Configuration;
 using MESH.Api.Client.Entities;
-using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace MESH.Api.Client.UnitTests.Client
 {
@@ -22,7 +22,7 @@ namespace MESH.Api.Client.UnitTests.Client
 
             var response = new HttpResponseMessage
             {
-                Content = new StringContent(JsonConvert.SerializeObject(getMessagesResponse)),
+                Content = new StringContent(JsonSerializer.Serialize(getMessagesResponse)),
                 StatusCode = HttpStatusCode.OK
             };
 

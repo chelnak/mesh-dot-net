@@ -1,16 +1,16 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace MESH.Api.Client.Entities
 {
     public class GetMessageCountResponse
     {
-        [JsonProperty("count")]
+        [JsonPropertyName("count")]
         public int Count { get; set; }
 
-        [JsonProperty("internalId")]
+        [JsonPropertyName("internalId")]
         public string InternalId { get; set; }
 
-        [JsonProperty("allResultsIncluded")]
+        [JsonPropertyName("allResultsIncluded")]
         public bool AllResultsIncluded { get; set; }
     }
 }

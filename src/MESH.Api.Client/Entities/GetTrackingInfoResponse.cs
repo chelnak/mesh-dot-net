@@ -1,82 +1,82 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace MESH.Api.Client.Entities
 {
     public class GetTrackingInfoResponse
     {
-        [JsonProperty("statusSuccess")]
+        [JsonPropertyName("statusSuccess")]
         public bool StatusSuccess { get; set; }
 
-        [JsonProperty("statusCode")]
+        [JsonPropertyName("statusCode")]
         public string StatusCode { get; set; }
 
-        [JsonProperty("partnerId")]
+        [JsonPropertyName("partnerId")]
         public string PartnerId { get; set; }
 
-        [JsonProperty("checksum")]
+        [JsonPropertyName("checksum")]
         public string Checksum { get; set; }
 
-        [JsonProperty("localId")]
+        [JsonPropertyName("localId")]
         public string LocalId { get; set; }
 
-        [JsonProperty("dtsId")]
+        [JsonPropertyName("dtsId")]
         public string DtsId { get; set; }
 
-        [JsonProperty("status")]
+        [JsonPropertyName("status")]
         public string Status { get; set; }
 
-        [JsonProperty("uploadTimestamp")]
+        [JsonPropertyName("uploadTimestamp")]
         public string UploadTimestamp { get; set; }
 
-        [JsonProperty("workflowId")]
+        [JsonPropertyName("workflowId")]
         public string WorkflowId { get; set; }
 
-        [JsonProperty("senderOrgCode")]
+        [JsonPropertyName("senderOrgCode")]
         public string SenderOrgCode { get; set; }
 
-        [JsonProperty("statusEvent")]
+        [JsonPropertyName("statusEvent")]
         public string StatusEvent { get; set; }
 
-        [JsonProperty("processId")]
+        [JsonPropertyName("processId")]
         public string ProcessId { get; set; }
 
-        [JsonProperty("addressType")]
+        [JsonPropertyName("addressType")]
         public string AddressType { get; set; }
 
-        [JsonProperty("chunkCount")]
+        [JsonPropertyName("chunkCount")]
         public int ChunkCount { get; set; }
 
-        [JsonProperty("compressFlag")]
+        [JsonPropertyName("compressFlag")]
         public string CompressFlag { get; set; }
 
-        [JsonProperty("sender")]
+        [JsonPropertyName("sender")]
         public string Sender { get; set; }
 
-        [JsonProperty("isCompressed")]
+        [JsonPropertyName("isCompressed")]
         public bool IsCompressed { get; set; }
 
-        [JsonProperty("statusDescription")]
+        [JsonPropertyName("statusDescription")]
         public string StatusDescription { get; set; }
 
-        [JsonProperty("expiryTime")]
+        [JsonPropertyName("expiryTime")]
         public string ExpiryTime { get; set; }
 
-        [JsonProperty("version")]
+        [JsonPropertyName("version")]
         public string Version { get; set; }
 
-        [JsonProperty("messageType")]
+        [JsonPropertyName("messageType")]
         public string MessageType { get; set; }
 
-        [JsonProperty("subject")]
+        [JsonPropertyName("subject")]
         public string Subject { get; set; }
 
-        [JsonProperty("encryptedFlag")]
+        [JsonPropertyName("encryptedFlag")]
         public string EncryptedFlag { get; set; }
 
-        [JsonProperty("statusTimestamp")]
+        [JsonPropertyName("statusTimestamp")]
         public string StatusTimestamp { get; set; }
 
-        [JsonProperty("fileName")]
+        [JsonPropertyName("fileName")]
         public string FileName { get; set; }
     }
 }
