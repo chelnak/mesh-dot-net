@@ -1,32 +1,82 @@
+using Newtonsoft.Json;
+
 namespace MESH.Api.Client.Entities
 {
     public class GetTrackingInfoResponse
     {
-        public bool statusSuccess { get; set; }
-        public string statusCode { get; set; }
-        public string partnerId { get; set; }
-        public string checksum { get; set; }
-        public string localId { get; set; }
-        public string dtsId { get; set; }
-        public string status { get; set; }
-        public string uploadTimestamp { get; set; }
-        public string workflowId { get; set; }
-        public string senderOrgCode { get; set; }
-        public string statusEvent { get; set; }
-        public string processId { get; set; }
-        public string addressType { get; set; }
-        public int chunkCount { get; set; }
-        public string compressFlag { get; set; }
-        public string sender { get; set; }
-        public bool isCompressed { get; set; }
-        public string statusDescription { get; set; }
-        public string expiryTime { get; set; }
-        public string version { get; set; }
-        public string messageType { get; set; }
-        public string subject { get; set; }
-        public string encryptedFlag { get; set; }
-        public string statusTimestamp { get; set; }
-        public string fileName { get; set; }
-        public string recipient { get; set; }
+        [JsonProperty("statusSuccess")]
+        public bool StatusSuccess { get; set; }
+
+        [JsonProperty("statusCode")]
+        public string StatusCode { get; set; }
+
+        [JsonProperty("partnerId")]
+        public string PartnerId { get; set; }
+
+        [JsonProperty("checksum")]
+        public string Checksum { get; set; }
+
+        [JsonProperty("localId")]
+        public string LocalId { get; set; }
+
+        [JsonProperty("dtsId")]
+        public string DtsId { get; set; }
+
+        [JsonProperty("status")]
+        public string Status { get; set; }
+
+        [JsonProperty("uploadTimestamp")]
+        public string UploadTimestamp { get; set; }
+
+        [JsonProperty("workflowId")]
+        public string WorkflowId { get; set; }
+
+        [JsonProperty("senderOrgCode")]
+        public string SenderOrgCode { get; set; }
+
+        [JsonProperty("statusEvent")]
+        public string StatusEvent { get; set; }
+
+        [JsonProperty("processId")]
+        public string ProcessId { get; set; }
+
+        [JsonProperty("addressType")]
+        public string AddressType { get; set; }
+
+        [JsonProperty("chunkCount")]
+        public int ChunkCount { get; set; }
+
+        [JsonProperty("compressFlag")]
+        public string CompressFlag { get; set; }
+
+        [JsonProperty("sender")]
+        public string Sender { get; set; }
+
+        [JsonProperty("isCompressed")]
+        public bool IsCompressed { get; set; }
+
+        [JsonProperty("statusDescription")]
+        public string StatusDescription { get; set; }
+
+        [JsonProperty("expiryTime")]
+        public string ExpiryTime { get; set; }
+
+        [JsonProperty("version")]
+        public string Version { get; set; }
+
+        [JsonProperty("messageType")]
+        public string MessageType { get; set; }
+
+        [JsonProperty("subject")]
+        public string Subject { get; set; }
+
+        [JsonProperty("encryptedFlag")]
+        public string EncryptedFlag { get; set; }
+
+        [JsonProperty("statusTimestamp")]
+        public string StatusTimestamp { get; set; }
+
+        [JsonProperty("fileName")]
+        public string FileName { get; set; }
     }
 }

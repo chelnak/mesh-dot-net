@@ -7,14 +7,12 @@ namespace MESH.Api.Client
     {
         //Task<SendMessageResponse> SendMessage(string mailboxId); // should also handle chunking?
 
-        //Task<GetTrackingInfoResponse> GetTrackingInfo(string mailboxId, string localId);
-
         Task<GetMessagesResponse> GetMessages();
 
         Task<GetMessageCountResponse> GetMessageCount();
 
-        Task<Message> DownloadMessage(string messageId); // should also handle chunking?
+        Task<DownloadMessageResponse> DownloadMessage(string messageId); // should also handle chunking?
 
-        Task<AknowledgeMessageResponse> AknowledgeMessage(string messageId);
+        Task<AcknowledgeMessageResponse> AcknowledgeMessage(string messageId);
     }
 }

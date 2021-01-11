@@ -1,6 +1,6 @@
 namespace MESH.Api.Client.Entities
 {
-    public class Message
+    public class DownloadMessageResponse
     {
     }
 }

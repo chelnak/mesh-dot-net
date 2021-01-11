@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace MESH.Api.Client.Entities
 {
-    public class AknowledgeMessageResponse
+    public class AcknowledgeMessageResponse
     {
         [JsonProperty("messageID")]
         public string Id { get; set; }

@@ -15,28 +15,26 @@ namespace MESH.Api.Client
         private readonly MESHApiClientConfiguration _config;
         private readonly IAuthenticationHeaderGenerator _authHeaderGenerator;
 
-        public MESHApiClient(HttpClient httpClient, MESHApiClientConfiguration config, IAuthenticationHeaderGenerator authHeaderGenerator)
+        public MESHApiClient(HttpClient httpClient, MESHApiClientConfiguration config)
         {
             _httpClient = httpClient;
             _config = config;
-            _authHeaderGenerator = authHeaderGenerator;
+            _authHeaderGenerator = new AuthenticationHeaderGenerator(config);
         }
 
         public async Task<GetMessageCountResponse> GetMessageCount()
         {
-            await Authenticate();
             var response = await MESHHttpGet($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}/count");
             return JsonConvert.DeserializeObject<GetMessageCountResponse>(await response.Content.ReadAsStringAsync());
         }
 
         public async Task<GetMessagesResponse> GetMessages()
         {
-            await Authenticate();
             var response = await MESHHttpGet($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}/inbox");
             return JsonConvert.DeserializeObject<GetMessagesResponse>(await response.Content.ReadAsStringAsync());
         }
 
-        public async Task<Message> DownloadMessage(string messageId)
+        public async Task<DownloadMessageResponse> DownloadMessage(string messageId)
         {
             // not implemented
 
@@ -48,23 +46,38 @@ namespace MESH.Api.Client
             var currentChunk = chunkSize.Split(':')[0];
             var maxChunk = chunkSize.Split(':')[1];
 
-            return new Message();
+            return new DownloadMessageResponse();
         }
 
-        public async Task<AknowledgeMessageResponse> AknowledgeMessage(string messageId)
+        public async Task<AcknowledgeMessageResponse> AcknowledgeMessage(string messageId)
         {
-            await Authenticate();
-            var response = await MESHHttpGet($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}/inbux/{messageId}/status/acknowledged");
-            return JsonConvert.DeserializeObject<AknowledgeMessageResponse>(await response.Content.ReadAsStringAsync());
+            var response = await MESHHttpGet($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}/inbox/{messageId}/status/acknowledged");
+            return JsonConvert.DeserializeObject<AcknowledgeMessageResponse>(await response.Content.ReadAsStringAsync());
         }
 
         private async Task Authenticate()
         {
-            await MESHHttpGet($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}");
+            var request = new HttpRequestMessage
+            {
+                RequestUri = new Uri($"{_config.BaseUrl}/messageexchange/{_config.MailBoxId}"),
+                Method = HttpMethod.Get
+            };
+
+            request.Headers.Authorization = _authHeaderGenerator.GetAuthenticationHeader();
+
+            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Mex-ClientVersion", $"{Constants.ClientName} == 0.0.1");
+            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Mex-OSArchitecture", "x86_64");
+            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Mex-OSName", "Windows");
+            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Mex-OSVersion", "#44~18.04.2-Ubuntu");
+
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
         }
 
         private async Task<HttpResponseMessage> MESHHttpGet(string uri)
         {
+            await Authenticate();
+
             var request = new HttpRequestMessage
             {
                 RequestUri = new Uri(uri),
