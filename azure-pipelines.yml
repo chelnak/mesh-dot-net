@@ -1,0 +1,59 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - "*"
+  paths:
+    include:
+      - src/**
+      - azure-pipelines.yml
+
+pr: none
+
+variables:
+  - group: 'SAE Prod Shared Variables'
+  - name: buildConfiguration
+    value: 'release'
+  - name: buildPlatform
+    value: 'anycpu'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+  - stage: build
+    jobs:
+      - job: build
+        steps:
+
+        - task: gitversion/setup@0
+          displayName: Install GitVersion
+          inputs:
+            versionSpec: '5.x'
+
+        - task: gitversion/execute@0
+          displayName: Use GitVersion
+          inputs:
+            useConfigFile: true
+            configFilePath: 'GitVersion.yml'
+            updateAssemblyInfo: true
+
+        - task: DotNetCoreCLI@2
+          displayName: Restore
+          inputs:
+            command: restore
+            projects: 'src/**/*.csproj'
+            noCache: true
+
+        - task: DotNetCoreCLI@2
+          displayName: Build
+          inputs:
+            projects: 'src/**/*.csproj'
+            arguments: '--configuration $(buildConfiguration) --no-restore'
+
+        - task: DotNetCoreCLI@2
+          displayName: Test
+          inputs:
+            projects: 'src/**/*.UnitTests.csproj'
+            arguments: '--configuration $(buildConfiguration) --no-restore'
+
